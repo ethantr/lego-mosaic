@@ -1,5 +1,21 @@
+import { useState } from "react";
 
 const App = () => {
+
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
+  // Handle file upload
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedImage(e.target?.result as string); // Save the image as a base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
       <Header/>
@@ -11,9 +27,22 @@ const App = () => {
             <input
               type="file"
               accept="image/*"
+              onChange={handleFileChange}
               className="text-sm text-gray-400 file:py-2 file:px-4 file:rounded file:border file:border-gray-600 file:text-white"
             />
           </div>
+
+          {/* Original Image Preview */}
+          {uploadedImage && (
+              <div className="w-1/2 max-w-xs lg:max-w-md">
+                <h2 className="text-center text-lg mb-2">Original Photo</h2>
+                <img
+                  src={uploadedImage}
+                  alt="Uploaded"
+                  className="w-full h-auto rounded-md"
+                />
+              </div>
+            )}
           
           {/* Lego Mosaic Grid */}
           <div
