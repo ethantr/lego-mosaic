@@ -1,22 +1,23 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ImageUploader from "./components/ImageUploader";
 import OriginalImage from "./components/OriginalImage";
 import BrickMosaic from "./components/BrickGrid";
+import { processImage } from "./utils/imageProcessing";
 
 const App = () => {
   // fill pixelatedColours with random colors
   const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
   const colors = Array.from({ length: 48 }, () => Array.from({ length: 48 }, randomColor));
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [pixelatedColours, setPixelatedColours] = useState<string[][]>(colors);
+  const [pixelatedColours] = useState<string[][]>(colors);
 
-
-
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
 
 
   const handleImageUpload = (imageSrc: string) => {
     setUploadedImage(imageSrc);
+    processImage(canvasRef.current!, imageSrc);
   }
 
   return (
@@ -32,6 +33,8 @@ const App = () => {
           {uploadedImage && <OriginalImage imageSrc={uploadedImage} />}
           <BrickMosaic pixelatedColours={pixelatedColours} />
         </div>
+
+        <canvas ref={canvasRef} className="hidden"></canvas>
       </main>
 
       <Footer />
