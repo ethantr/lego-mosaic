@@ -9,7 +9,7 @@ const App = () => {
   const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
   const colors = Array.from({ length: 48 }, () => Array.from({ length: 48 }, randomColor));
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [pixelatedColours] = useState<string[][]>(colors);
+  const [pixelatedColours, setPixelatedColours] = useState<string[][]>(colors);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -17,7 +17,7 @@ const App = () => {
 
   const handleImageUpload = (imageSrc: string) => {
     setUploadedImage(imageSrc);
-    processImage(canvasRef.current!, imageSrc);
+    processImage(canvasRef.current!, imageSrc, setPixelatedColours);
   }
 
   return (
