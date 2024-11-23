@@ -1,6 +1,8 @@
+import { getClosestBrickColour, rgbToHex } from "./colourMapping";
+
 export function processImage(
-    canvas: HTMLCanvasElement, 
-    imageSrc: string, 
+    canvas: HTMLCanvasElement,
+    imageSrc: string,
     setPixelatedColours: React.Dispatch<React.SetStateAction<string[][]>>) {
 
 
@@ -37,6 +39,7 @@ function createPixelatedColours(imageData: ImageData, size: number): string[][] 
 
         for (let x = 0; x < size; x++) {
             const pixel = getPixel(imageData, x, y, size);
+
             row.push(pixel);
         }
 
@@ -51,6 +54,8 @@ function getPixel(imageData: ImageData, x: number, y: number, size: number): str
     const r = imageData.data[index];
     const g = imageData.data[index + 1];
     const b = imageData.data[index + 2];
-    return `rgb(${r},${g},${b})`;
+    const colorHex = rgbToHex(r, g, b);
+    const nearestColor = getClosestBrickColour(colorHex).hexColour;
+    return nearestColor;
 }
 
