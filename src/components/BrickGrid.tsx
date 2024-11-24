@@ -9,7 +9,7 @@ interface BrickMosaicProps {
 const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours }) => {
   return (
     <div
-      className="grid gap-1 mx-auto"
+      className="grid gap-0.5 mx-auto"
       style={{
         gridTemplateColumns: 'repeat(48, 1fr)',  // 16 equal columns
         gridTemplateRows: 'repeat(48, 1fr)',    // 16 equal rows
