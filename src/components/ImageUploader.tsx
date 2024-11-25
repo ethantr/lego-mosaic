@@ -1,3 +1,5 @@
+import { Upload } from "lucide-react";
+
 interface FileUploaderProps {
   onImageUpload: (imageSrc: string) => void;
 }
@@ -18,15 +20,23 @@ function ImageUploader({ onImageUpload }: FileUploaderProps) {
 
   return (
     <div className="text-center">
+      <label htmlFor="image-upload" className="cursor-pointer">
+        <div className="bg-lego-yellow  px-3 py-2 rounded-lg text-lego-dark-blue  font-bold inline-flex items-center transition-transform hover:scale-105">
+          <Upload className="mr-2" /> Upload Image
+        </div>
+      </label>
+
       <input
         type="file"
         accept="image/*"
         value=""
         onChange={handleFileChange}
-        className="text-sm text-gray-400 file:py-2 file:px-4 file:rounded file:border file:border-gray-600 file:text-white" 
-        />
-      <p className="text-xs text-gray-400">Upload an image</p>
+        className="hidden"
+        id="image-upload"
+      />
+      <p className="text-sm text-gray-500 mt-2">Click to upload or drag and drop</p>
     </div>
+
   );
 }
 

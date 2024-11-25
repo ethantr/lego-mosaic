@@ -22,28 +22,37 @@ const App = () => {
 
   const handleImageUpload = (imageSrc: string) => {
     setUploadedImage(imageSrc);
-    processImage(canvasRef.current!, gridWidth,gridHeight, imageSrc, setPixelatedColours);
+    processImage(canvasRef.current!, gridWidth, gridHeight, imageSrc, setPixelatedColours);
   };
 
+  const changeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGridWidth(Number(e.target.value));
+    processImage(canvasRef.current!, Number(e.target.value), gridHeight, uploadedImage!, setPixelatedColours);
+  }
+
+  const changeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGridHeight(Number(e.target.value));
+    processImage(canvasRef.current!, gridWidth, Number(e.target.value), uploadedImage!, setPixelatedColours);
+  }
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen bg-slate-100 text-white flex flex-col">
       <Header />
 
       <main className="flex-grow p-6 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
         {/* Left Column: Upload & Settings */}
-        <div className="flex flex-col md:w-1/3 space-y-6">
-          <div className="bg-yellow-400 p-4 rounded-lg shadow-lg">
+        <div className="bg-white rounded-lg shadow-lg p-6 flex-1">
+          <h2 className="text-2xl font-bold mb-4 text-red-600">Upload & Preview</h2>
+          <div className="mb-4">
             <ImageUploader onImageUpload={handleImageUpload} />
-
-            {uploadedImage && (
-              <div className="mt-4">
-                <OriginalImage imageSrc={uploadedImage} />
-              </div>
-            )}
           </div>
+          {uploadedImage && (
+            <div className="mb-4">
+              <OriginalImage imageSrc={uploadedImage} />
+            </div>
+          )}
 
           {/* Controls for Grid Size and Color Options */}
-          <div className="bg-gray-400 p-4 rounded-lg shadow-lg space-y-4">
+          <div className="bg-lego-dark-blue p-4 rounded-lg shadow-lg space-y-4">
             <h2 className="text-2xl font-bold" style={{ fontFamily: "'Fredoka One', sans-serif" }}>Controls</h2>
 
             {/* Grid Size Control */}
@@ -55,7 +64,7 @@ const App = () => {
                   min="1"
                   defaultValue="48"
                   className="w-16 p-2 bg-gray-300 rounded-lg text-gray-900 text-center"
-                  onChange={(e) => setGridWidth(Number(e.target.value))}
+                  onChange={(e) => changeWidth(e)}
                 />
                 <span className="self-center">x</span>
                 <input
@@ -63,7 +72,7 @@ const App = () => {
                   min="1"
                   defaultValue="48"
                   className="w-16 p-2 bg-gray-300 rounded-lg text-gray-900 text-center"
-                  onChange={(e) => setGridHeight(Number(e.target.value))}
+                  onChange={(e) => changeHeight(e)}
                 />
               </div>
             </div>
@@ -71,7 +80,7 @@ const App = () => {
             {/* Colour Options Control */}
             <div>
               <label className="block text-sm mb-2">Colour Options:</label>
-              <button className="bg-gray-500 px-3 py-2 rounded-lg text-white hover:bg-gray-600 transition duration-300">
+              <button className="bg-yellow-500  px-3 py-2 rounded-lg text-blue-800 hover:bg-gray-600 transition duration-300">
                 Edit Colours
               </button>
             </div>
@@ -80,20 +89,20 @@ const App = () => {
 
         {/* Right Column: Brick Mosaic and Piece List */}
         <div className="flex flex-col md:w-2/3 space-y-6">
-          <div className="bg-slate-800 p-4 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Fredoka One', sans-serif" }}>Brick Mosaic</h2>
-            <BrickMosaic pixelatedColours={pixelatedColours} gridWidth={gridWidth} 
-  gridHeight={gridHeight}/>
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-blue-600" style={{ fontFamily: "'Fredoka One', sans-serif" }}>Brick Mosaic</h2>
+            <BrickMosaic pixelatedColours={pixelatedColours} gridWidth={gridWidth}
+              gridHeight={gridHeight} />
           </div>
 
           {/* Final List of Pieces */}
-          <div className="bg-red-400 p-4 rounded-lg shadow-lg">
+          <div className="bg-red-500 p-4 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Fredoka One', sans-serif" }}>List of Pieces</h2>
             <p className="text-sm text-gray-900">
               This section will display the final list of Lego pieces needed for the mosaic.
             </p>
-            <button 
-              onClick={() => setFinalPieces(countOccurrences(pixelatedColours))} 
+            <button
+              onClick={() => setFinalPieces(countOccurrences(pixelatedColours))}
               className="bg-yellow-500 px-3 py-2 rounded-lg text-gray-900 hover:bg-yellow-600 transition duration-300"
             >
               Generate Piece List

@@ -9,34 +9,28 @@ interface BrickMosaicProps {
 }
 
 const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours,gridWidth,gridHeight }) => {
+  if (pixelatedColours.length === 0) {
+    return <div className="text-center text-gray-500">Upload an image to generate the mosaic</div>;
+  }
+
   return (
-    <div
-      className="grid gap-0.5 mx-auto"
+    <div 
+      className="grid gap-px bg-gray-800 p-px rounded-lg overflow-hidden max-w-2xl mx-auto" 
       style={{
-        gridTemplateColumns: `repeat(${gridWidth}, 1fr)`,  // 16 equal columns
-        gridTemplateRows: `repeat(${gridHeight}, 1fr)`,    // 16 equal rows
-        width: '80%',                            // Set width to 80% of the container
-        maxWidth: '600px',                       // Limit the width to 600px
-        height: 'auto',
+        gridTemplateColumns: `repeat(${gridWidth}, 1fr)`,
+        aspectRatio: `${gridWidth} / ${gridHeight}`,
       }}
     >
-      {/* Placeholder grid for Lego mosaic */}
       {pixelatedColours.flat().map((color, index) => (
         <div
-        className=''
           key={index}
-          style={{
-            backgroundColor: color, // Use the pixelated color
-            width: '100%',          // Ensuring 100% width for grid cells
-            height: '0',            // The height will be based on the width
-            paddingBottom: '100%',  // Ensures the div stays square (height = width)
-          }}
-        >
-        </div>
+          className="aspect-square"
+          style={{ backgroundColor: color }}
+        />
       ))}
     </div>
-
   );
+
 };
 
 export default BrickMosaic;

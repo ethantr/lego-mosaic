@@ -16,7 +16,26 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --lego-red: #D01012;
+  --lego-blue: #006CB7;
+  --lego-yellow: #F2CD37;
+  --lego-green: #00852B;
+  --lego-dark-blue: #00325B;
 }
+
+.bg-lego-red { background-color: var(--lego-red); }
+.bg-lego-blue { background-color: var(--lego-blue); }
+.bg-lego-yellow { background-color: var(--lego-yellow); }
+.bg-lego-green { background-color: var(--lego-green); }
+.bg-lego-dark-blue { background-color: var(--lego-dark-blue); }
+
+.text-lego-red { color: var(--lego-red); }
+.text-lego-blue { color: var(--lego-blue); }
+.text-lego-yellow { color: var(--lego-yellow); }
+.text-lego-green { color: var(--lego-green); }
+.text-lego-dark-blue { color: var(--lego-dark-blue); }
+
 
 a {
   font-weight: 500;
@@ -44,23 +63,9 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
