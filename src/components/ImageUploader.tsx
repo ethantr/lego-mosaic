@@ -21,8 +21,11 @@ function ImageUploader({ onImageUpload }: FileUploaderProps) {
       <input
         type="file"
         accept="image/*"
+        value=""
         onChange={handleFileChange}
-        className="text-sm text-gray-400 file:py-2 file:px-4 file:rounded file:border file:border-gray-600 file:text-white" />
+        className="text-sm text-gray-400 file:py-2 file:px-4 file:rounded file:border file:border-gray-600 file:text-white" 
+        />
+      <p className="text-xs text-gray-400">Upload an image</p>
     </div>
   );
 }

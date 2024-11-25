@@ -4,15 +4,17 @@ import React from 'react';
 
 interface BrickMosaicProps {
   pixelatedColours: string[][];
+  gridWidth: number;
+  gridHeight: number;
 }
 
-const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours }) => {
+const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours,gridWidth,gridHeight }) => {
   return (
     <div
       className="grid gap-0.5 mx-auto"
       style={{
-        gridTemplateColumns: 'repeat(48, 1fr)',  // 16 equal columns
-        gridTemplateRows: 'repeat(48, 1fr)',    // 16 equal rows
+        gridTemplateColumns: `repeat(${gridWidth}, 1fr)`,  // 16 equal columns
+        gridTemplateRows: `repeat(${gridHeight}, 1fr)`,    // 16 equal rows
         width: '80%',                            // Set width to 80% of the container
         maxWidth: '600px',                       // Limit the width to 600px
         height: 'auto',

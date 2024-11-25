@@ -2,6 +2,8 @@ import { getClosestBrickColour, rgbToHex } from "./colourMapping";
 
 export function processImage(
     canvas: HTMLCanvasElement,
+    gridWidth: number,
+    gridHeight: number,
     imageSrc: string,
     setPixelatedColours: React.Dispatch<React.SetStateAction<string[][]>>) {
 
@@ -14,33 +16,33 @@ export function processImage(
 
     image.onload = () => {
         // Set the canvas size to match the image
-        canvas.width = 48;
-        canvas.height = 48;
+        canvas.width = gridWidth;
+        canvas.height = gridHeight;
         ctx.filter = 'contrast(2) saturate(1) brightness(1)'; 
         // Draw the image on the canvas
-        ctx.drawImage(image, 0, 0, 48, 48);
+        ctx.drawImage(image, 0, 0, gridWidth, gridHeight);
 
         
 
         // Get the image data
-        const imageData = ctx.getImageData(0, 0, 48, 48);
+        const imageData = ctx.getImageData(0, 0, gridWidth, gridHeight);
         ctx.filter = 'none';
         // // Create a pixelated version of the image
-        const pixelatedColours = createPixelatedColours(imageData, 48);
+        const pixelatedColours = createPixelatedColours(imageData, gridWidth,gridHeight);
 
         // Set the pixelated colours in the state
         setPixelatedColours(pixelatedColours);
     }
 }
 
-function createPixelatedColours(imageData: ImageData, size: number): string[][] {
+function createPixelatedColours(imageData: ImageData, gridWidth: number, gridHeight: number): string[][] {
     const pixelatedColours: string[][] = [];
 
-    for (let y = 0; y < size; y++) {
+    for (let y = 0; y < gridHeight; y++) {
         const row: string[] = [];
 
-        for (let x = 0; x < size; x++) {
-            const pixel = getPixel(imageData, x, y, size);
+        for (let x = 0; x < gridWidth; x++) {
+            const pixel = getPixel(imageData, x, y, gridWidth);
 
             row.push(pixel);
         }
@@ -51,8 +53,8 @@ function createPixelatedColours(imageData: ImageData, size: number): string[][] 
     return pixelatedColours;
 }
 
-function getPixel(imageData: ImageData, x: number, y: number, size: number): string {
-    const index = (y * size + x) * 4;
+function getPixel(imageData: ImageData, x: number, y: number, gridWidth: number): string {
+    const index = (y * gridWidth + x) * 4;
     const r = imageData.data[index];
     const g = imageData.data[index + 1];
     const b = imageData.data[index + 2];
