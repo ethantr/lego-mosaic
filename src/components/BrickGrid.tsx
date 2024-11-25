@@ -21,7 +21,7 @@ const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours }) => {
       {/* Placeholder grid for Lego mosaic */}
       {pixelatedColours.flat().map((color, index) => (
         <div
-        className='hover:opacity-50'
+        className=''
           key={index}
           style={{
             backgroundColor: color, // Use the pixelated color
@@ -29,7 +29,7 @@ const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours }) => {
             height: '0',            // The height will be based on the width
             paddingBottom: '100%',  // Ensures the div stays square (height = width)
           }}
-        >.
+        >
         </div>
       ))}
     </div>

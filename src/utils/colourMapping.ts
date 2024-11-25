@@ -1,4 +1,4 @@
-interface BrickColour {
+ export interface BrickColour {
     name: string;
     hexColour: string;
 }

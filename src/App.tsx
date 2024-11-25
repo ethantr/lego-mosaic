@@ -3,6 +3,7 @@ import ImageUploader from "./components/ImageUploader";
 import OriginalImage from "./components/OriginalImage";
 import BrickMosaic from "./components/BrickGrid";
 import { processImage } from "./utils/imageProcessing";
+import { countOccurrences } from "./utils/countOccurrences";
 
 const App = () => {
   // fill pixelatedColours with random colors
@@ -10,6 +11,8 @@ const App = () => {
   const colors = Array.from({ length: 48 }, () => Array.from({ length: 48 }, randomColor));
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [pixelatedColours, setPixelatedColours] = useState<string[][]>(colors);
+
+  const [finalPieces, setFinalPieces] = useState<Record<string, number>>({});
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -85,6 +88,21 @@ const App = () => {
             <p className="text-sm text-gray-400">
               This section will display the final list of Lego pieces needed for the mosaic.
             </p>
+            <button onClick={() => setFinalPieces(countOccurrences(pixelatedColours))}></button>
+            {finalPieces && (
+              <ul className="mt-4 space-y-2">
+                {Object.entries(finalPieces).map(([color, count]) => (
+                  <li key={color}>
+                    {/* colour square  */}
+                    <span
+                      className="inline-block w-4 h-4 rounded-full mr-2"
+                      style={{ backgroundColor: color }}
+                    ></span>
+                    {color}: {count}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
