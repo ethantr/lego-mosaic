@@ -7,6 +7,7 @@ import { countOccurrences } from "./utils/countOccurrences";
 import { BrickColour } from "./utils/colourMapping";
 import PieceList from "./components/PieceList";
 import Controls from "./components/Controls";
+import { generateInstructions } from "./utils/generateInstructions";
 
 
 const App = () => {
@@ -85,6 +86,9 @@ const App = () => {
               pixelatedColours={pixelatedColours}
               gridWidth={gridWidth}
               gridHeight={gridHeight} />
+              <button onClick={() => generateInstructions(pixelatedColours, finalPieces, 16, gridWidth, gridHeight)}>
+                Generate Instructions
+              </button>
           </div>
 
           <PieceList
