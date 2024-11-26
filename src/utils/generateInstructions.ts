@@ -10,7 +10,7 @@ export function generateInstructions(pixelatedColours: BrickColour[][], colourMa
     const colourMapNumbers = coloursToNumbers(colourMap);
 
     const chunks = getChunks(pixelatedColours, chunkSize);
-    const instructions = [];
+    const instructions: { instructions: BrickInstruction[][][], colourMap: Map<BrickColour, number> } = { instructions: [], colourMap: colourMapNumbers };
     const totalBricks = width * height;
 
 
@@ -19,7 +19,7 @@ export function generateInstructions(pixelatedColours: BrickColour[][], colourMa
 
         // Map the numbers to the chunk grid
         const chunkGrid = generateChunk(chunk, colourMapNumbers);
-        instructions.push(chunkGrid); 
+        instructions['instructions'].push(chunkGrid); 
 
     }
 
@@ -41,14 +41,14 @@ function generateChunk(chunk: BrickColour[][], colourNumberMap: Map<BrickColour,
         row.map(colour => {
             const brickNumber = colourNumberMap.get(colour);
             return {
-                number: brickNumber,    // Assign brick number based on the colour map
+                number: brickNumber ?? 0,    // Assign brick number based on the colour map, default to 0 if undefined
                 colour: colour.hexColour // Colour in hex code
             };
         })
     );
 }
 
-function coloursToNumbers(colourMap: Map<BrickColour, number>) {
+export function coloursToNumbers(colourMap: Map<BrickColour, number>) {
     const colourMapNumbers = new Map<BrickColour, number>();
     let i = 1;
     for (const [colour] of colourMap) {

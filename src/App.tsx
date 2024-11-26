@@ -8,6 +8,7 @@ import { BrickColour } from "./utils/colourMapping";
 import PieceList from "./components/PieceList";
 import Controls from "./components/Controls";
 import { generateInstructions } from "./utils/generateInstructions";
+import VisualInstructions, { BrickInstruction } from "./components/VisualInstructions";
 
 
 const App = () => {
@@ -19,11 +20,21 @@ const App = () => {
 
   const [finalPieces, setFinalPieces] = useState<Map<BrickColour, number>>(new Map());
 
+  const [instructions, setInstructions] = useState<{ instructions: BrickInstruction[][][], colourMap: Map<BrickColour, number> } | null>(null);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     setFinalPieces(countOccurrences(pixelatedColours))
+    
   }, [pixelatedColours]);
+
+
+  const createInstructions = () => {
+
+    const generatedInstructions = generateInstructions(pixelatedColours, finalPieces, 16, gridWidth, gridHeight); // Adjust width/height as needed
+    setInstructions(generatedInstructions);
+  }
 
   const handleImageUpload = (imageSrc: string) => {
     setUploadedImage(imageSrc);
@@ -86,9 +97,15 @@ const App = () => {
               pixelatedColours={pixelatedColours}
               gridWidth={gridWidth}
               gridHeight={gridHeight} />
-              <button onClick={() => generateInstructions(pixelatedColours, finalPieces, 16, gridWidth, gridHeight)}>
-                Generate Instructions
-              </button>
+            <button onClick={createInstructions}>
+              Generate Instructions
+            </button>
+            {instructions && (
+              <div>
+                <h2>Instructions</h2>
+                <VisualInstructions instructions={instructions.instructions} colourMap={instructions.colourMap}/>
+              </div>
+            )}
           </div>
 
           <PieceList
