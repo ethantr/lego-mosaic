@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     setFinalPieces(countOccurrences(pixelatedColours))
-  }, [ pixelatedColours]); 
+  }, [pixelatedColours]);
 
   const handleImageUpload = (imageSrc: string) => {
     setUploadedImage(imageSrc);
@@ -89,7 +89,7 @@ const App = () => {
 
           <PieceList
             finalPieces={finalPieces}
-             />
+          />
         </div>
 
         <canvas ref={canvasRef} className="hidden"></canvas>
