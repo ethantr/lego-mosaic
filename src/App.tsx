@@ -6,6 +6,7 @@ import { processImage } from "./utils/imageProcessing";
 import { countOccurrences } from "./utils/countOccurrences";
 import { BrickColour } from "./utils/colourMapping";
 import PieceList from "./components/PieceList";
+import Controls from "./components/Controls";
 
 
 const App = () => {
@@ -24,15 +25,24 @@ const App = () => {
     processImage(canvasRef.current!, gridWidth, gridHeight, imageSrc, setPixelatedColours);
   };
 
-  const changeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGridWidth(Number(e.target.value));
-    processImage(canvasRef.current!, Number(e.target.value), gridHeight, uploadedImage!, setPixelatedColours);
+  const changeWidth = (width: number) => {
+    setGridWidth(width);
+    processImage(canvasRef.current!, width, gridHeight, uploadedImage!, setPixelatedColours);
+
   }
 
-  const changeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGridHeight(Number(e.target.value));
-    processImage(canvasRef.current!, gridWidth, Number(e.target.value), uploadedImage!, setPixelatedColours);
+  const changeHeight = (height: number) => {
+    setGridHeight(height);
+    processImage(canvasRef.current!, gridWidth, height, uploadedImage!, setPixelatedColours);
+
   }
+
+  const changeGridSize = (width: number, height: number) => {
+    setGridWidth(width);
+    setGridHeight(height);
+    processImage(canvasRef.current!, width, height, uploadedImage!, setPixelatedColours);
+  }
+
   return (
     <div className="min-h-screen bg-slate-100 text-white flex flex-col">
       <Header />
@@ -51,39 +61,16 @@ const App = () => {
           )}
 
           {/* Controls for Grid Size and Color Options */}
-          <div className="bg-lego-dark-blue p-4 rounded-lg shadow-lg space-y-4">
-            <h2 className="text-2xl font-bold" style={{ fontFamily: "'Fredoka One', sans-serif" }}>Controls</h2>
-
-            {/* Grid Size Control */}
-            <div>
-              <label className="block text-sm mb-2">Grid Size:</label>
-              <div className="flex space-x-2">
-                <input
-                  type="number"
-                  min="1"
-                  defaultValue="48"
-                  className="w-16 p-2 bg-gray-300 rounded-lg text-gray-900 text-center"
-                  onChange={(e) => changeWidth(e)}
-                />
-                <span className="self-center">x</span>
-                <input
-                  type="number"
-                  min="1"
-                  defaultValue="48"
-                  className="w-16 p-2 bg-gray-300 rounded-lg text-gray-900 text-center"
-                  onChange={(e) => changeHeight(e)}
-                />
-              </div>
-            </div>
-
-            {/* Colour Options Control */}
-            <div>
-              <label className="block text-sm mb-2">Colour Options:</label>
-              <button className="bg-yellow-500  px-3 py-2 rounded-lg text-blue-800 hover:bg-gray-600 transition duration-300">
-                Edit Colours
-              </button>
-            </div>
-          </div>
+          <Controls
+            gridWidth={gridWidth}
+            gridHeight={gridHeight}
+            onWidthChange={changeWidth}
+            onHeightChange={changeHeight}
+            onEditColours={() => {
+              // Add logic here to handle color editing
+            }}
+            onChangeGridSize={changeGridSize}
+          />
         </div>
 
         {/* Right Column: Brick Mosaic and Piece List */}
