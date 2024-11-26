@@ -1,11 +1,11 @@
-import { getClosestBrickColour, rgbToHex } from "./colourMapping";
+import { BrickColour, getClosestBrickColour, rgbToHex } from "./colourMapping";
 
 export function processImage(
     canvas: HTMLCanvasElement,
     gridWidth: number,
     gridHeight: number,
     imageSrc: string,
-    setPixelatedColours: React.Dispatch<React.SetStateAction<string[][]>>) {
+    setPixelatedColours: React.Dispatch<React.SetStateAction<BrickColour[][]>>) {
 
 
     const ctx = canvas.getContext('2d');
@@ -35,11 +35,11 @@ export function processImage(
     }
 }
 
-function createPixelatedColours(imageData: ImageData, gridWidth: number, gridHeight: number): string[][] {
-    const pixelatedColours: string[][] = [];
+function createPixelatedColours(imageData: ImageData, gridWidth: number, gridHeight: number): BrickColour[][] {
+    const pixelatedColours: BrickColour[][] = [];
 
     for (let y = 0; y < gridHeight; y++) {
-        const row: string[] = [];
+        const row: BrickColour[] = [];
 
         for (let x = 0; x < gridWidth; x++) {
             const pixel = getPixel(imageData, x, y, gridWidth);
@@ -53,13 +53,13 @@ function createPixelatedColours(imageData: ImageData, gridWidth: number, gridHei
     return pixelatedColours;
 }
 
-function getPixel(imageData: ImageData, x: number, y: number, gridWidth: number): string {
+function getPixel(imageData: ImageData, x: number, y: number, gridWidth: number): BrickColour {
     const index = (y * gridWidth + x) * 4;
     const r = imageData.data[index];
     const g = imageData.data[index + 1];
     const b = imageData.data[index + 2];
     const colorHex = rgbToHex(r, g, b);
-    const nearestColor = getClosestBrickColour(colorHex).hexColour;
+    const nearestColor = getClosestBrickColour(colorHex);
     return nearestColor;
 }
 

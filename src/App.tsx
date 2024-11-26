@@ -4,19 +4,18 @@ import OriginalImage from "./components/OriginalImage";
 import BrickMosaic from "./components/BrickGrid";
 import { processImage } from "./utils/imageProcessing";
 import { countOccurrences } from "./utils/countOccurrences";
+import { BrickColour } from "./utils/colourMapping";
+import PieceList from "./components/PieceList";
 
 
 const App = () => {
 
   const [gridWidth, setGridWidth] = useState<number>(48);
   const [gridHeight, setGridHeight] = useState<number>(48);
-
-  // const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  // const colors = Array.from({ length: 48 }, () => Array.from({ length: 48 }, randomColor));
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [pixelatedColours, setPixelatedColours] = useState<string[][]>([]);
+  const [pixelatedColours, setPixelatedColours] = useState<BrickColour[][]>([]);
 
-  const [finalPieces, setFinalPieces] = useState<Record<string, number>>({});
+  const [finalPieces, setFinalPieces] = useState<Map<BrickColour, number>>(new Map());
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -91,36 +90,15 @@ const App = () => {
         <div className="flex flex-col md:w-2/3 space-y-6">
           <div className="bg-white p-4 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4 text-blue-600" style={{ fontFamily: "'Fredoka One', sans-serif" }}>Brick Mosaic</h2>
-            <BrickMosaic pixelatedColours={pixelatedColours} gridWidth={gridWidth}
+            <BrickMosaic
+              pixelatedColours={pixelatedColours}
+              gridWidth={gridWidth}
               gridHeight={gridHeight} />
           </div>
 
-          {/* Final List of Pieces */}
-          <div className="bg-red-500 p-4 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Fredoka One', sans-serif" }}>List of Pieces</h2>
-            <p className="text-sm text-gray-900">
-              This section will display the final list of Lego pieces needed for the mosaic.
-            </p>
-            <button
-              onClick={() => setFinalPieces(countOccurrences(pixelatedColours))}
-              className="bg-yellow-500 px-3 py-2 rounded-lg text-gray-900 hover:bg-yellow-600 transition duration-300"
-            >
-              Generate Piece List
-            </button>
-            {finalPieces && (
-              <ul className="mt-4 space-y-2">
-                {Object.entries(finalPieces).map(([color, count]) => (
-                  <li key={color}>
-                    <span
-                      className="inline-block w-4 h-4 rounded-full mr-2"
-                      style={{ backgroundColor: color }}
-                    ></span>
-                    {color}: {count}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <PieceList
+            finalPieces={finalPieces}
+            onGenerate={() => setFinalPieces(countOccurrences(pixelatedColours))} />
         </div>
 
         <canvas ref={canvasRef} className="hidden"></canvas>

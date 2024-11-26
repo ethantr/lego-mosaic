@@ -1,9 +1,10 @@
 // /src/components/BrickMosaic.tsx
 
 import React from 'react';
+import { BrickColour } from '../utils/colourMapping';
 
 interface BrickMosaicProps {
-  pixelatedColours: string[][];
+  pixelatedColours: BrickColour[][];
   gridWidth: number;
   gridHeight: number;
 }
@@ -21,11 +22,11 @@ const BrickMosaic: React.FC<BrickMosaicProps> = ({ pixelatedColours,gridWidth,gr
         aspectRatio: `${gridWidth} / ${gridHeight}`,
       }}
     >
-      {pixelatedColours.flat().map((color, index) => (
+      {pixelatedColours.flat().map((brick, index) => (
         <div
           key={index}
           className="aspect-square"
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: brick.hexColour }}
         />
       ))}
     </div>
