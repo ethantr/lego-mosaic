@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImageUploader from "./components/ImageUploader";
 import OriginalImage from "./components/OriginalImage";
 import BrickMosaic from "./components/BrickGrid";
@@ -19,6 +19,10 @@ const App = () => {
   const [finalPieces, setFinalPieces] = useState<Map<BrickColour, number>>(new Map());
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    setFinalPieces(countOccurrences(pixelatedColours))
+  }, [ pixelatedColours]); 
 
   const handleImageUpload = (imageSrc: string) => {
     setUploadedImage(imageSrc);
@@ -50,7 +54,7 @@ const App = () => {
       <main className="flex-grow p-6 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
         {/* Left Column: Upload & Settings */}
         <div className="bg-white rounded-lg shadow-lg p-6 flex-1">
-          <h2 className="text-2xl font-bold mb-4 text-red-600">Upload & Preview</h2>
+          <h2 style={{ fontFamily: "'Fredoka One', sans-serif" }} className="text-2xl font-bold mb-4 text-red-600">Upload & Preview</h2>
           <div className="mb-4">
             <ImageUploader onImageUpload={handleImageUpload} />
           </div>
@@ -85,7 +89,7 @@ const App = () => {
 
           <PieceList
             finalPieces={finalPieces}
-            onGenerate={() => setFinalPieces(countOccurrences(pixelatedColours))} />
+             />
         </div>
 
         <canvas ref={canvasRef} className="hidden"></canvas>
