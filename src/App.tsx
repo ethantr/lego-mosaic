@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     setFinalPieces(countOccurrences(pixelatedColours))
-    
+
   }, [pixelatedColours]);
 
 
@@ -98,13 +98,10 @@ const App = () => {
               gridWidth={gridWidth}
               gridHeight={gridHeight} />
             <button onClick={createInstructions}>
-              Generate Instructions
+              Toggle Instructions
             </button>
             {instructions && (
-              <div>
-                <h2>Instructions</h2>
-                <VisualInstructions instructions={instructions.instructions} colourMap={instructions.colourMap}/>
-              </div>
+              <VisualInstructions instructions={instructions.instructions} colourMap={instructions.colourMap} />
             )}
           </div>
 

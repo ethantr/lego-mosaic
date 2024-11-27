@@ -46,9 +46,9 @@ const Controls: React.FC<ControlsProps> = ({
                         <button
                             key={index}
                             onClick={() => { onChangeGridSize(preset.width, preset.height); }}
-                            className={`p-2 rounded-md text-sm font-medium ${gridWidth === preset.width && gridHeight === preset.height
-                                    ? 'bg-lego-yellow text-lego-dark-blue'
-                                    : 'bg-lego-blue text-white hover:bg-lego-yellow hover:text-lego-dark-blue'
+                            className={`p-2 rounded-md text-sm  ${gridWidth === preset.width && gridHeight === preset.height
+                                    ? 'bg-lego-yellow text-lego-dark-blue font-bold'
+                                    : 'bg-lego-blue text-white hover:bg-yellow-500 hover:text-blue-900 font-medium'
                                 } transition-colors`}
                         >
                             {preset.width}x{preset.height}
