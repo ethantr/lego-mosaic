@@ -98,7 +98,7 @@ const App = () => {
               gridWidth={gridWidth}
               gridHeight={gridHeight} />
             <button onClick={createInstructions}>
-              Toggle Instructions
+              Generate Instructions
             </button>
             {instructions && (
               <VisualInstructions instructions={instructions.instructions} colourMap={instructions.colourMap} />

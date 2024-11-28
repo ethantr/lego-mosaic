@@ -46,66 +46,100 @@ const VisualInstructions: React.FC<VisualInstructionsProps> = ({ instructions, c
   }
 
 
-  return (
-    <div className="flex flex-col items-center space-y-6">
-      <h2 className="text-2xl font-semibold text-lego-blue">Visual Instructions</h2>
+  return (<>
+  
+    <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-6">
+      {/* Instructions Grid */}
+      <div className="flex flex-col items-center space-y-4">
+        
 
-      {/* Display current chunk */}
-      <div className="instructions-container bg-slate-800 p-4 rounded-lg shadow-lg">
-        {currentChunk.map((row, rowIndex) => (
-          <div className="flex justify-center" key={rowIndex}>
-            {row.map((brick, colIndex) => (
-              <div
-                key={colIndex}
-                style={{
-                  backgroundColor: brick.colour,
-                }}
-                className="w-10 h-10 m-1 flex items-center justify-center rounded-md shadow-md"
-              >
-                <span
-                  style={{ color: getContrastingTextColor(brick.colour) }}
-                  className="text-xs font-bold"
+        <div className="instructions-container bg-slate-800 p-4 rounded-lg shadow-lg">
+          {currentChunk.map((row, rowIndex) => (
+            <div className="flex justify-center" key={rowIndex}>
+              {row.map((brick, colIndex) => (
+                <div
+                  key={colIndex}
+                  style={{
+                    backgroundColor: brick.colour,
+                  }}
+                  className="w-10 h-10 m-1 flex items-center justify-center rounded-md shadow-md"
                 >
-                  {brick.number}
-                </span>
-              </div>
-            ))}
-          </div>
-        ))}
+                  <span
+                    style={{ color: getContrastingTextColor(brick.colour) }}
+                    className="text-xs font-bold"
+                  >
+                    {brick.number}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation & Page Info */}
+        <div className="flex items-center justify-between w-full max-w-md">
+          <button
+            onClick={handlePreviousChunk}
+            disabled={currentChunkIndex === 0}
+            className={`px-4 py-2 rounded-md font-semibold text-sm ${
+              currentChunkIndex === 0
+                ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+            }`}
+          >
+            Previous
+          </button>
+
+          <span className="text-lg font-semibold text-lego-dark-blue">
+            {currentChunkIndex + 1}/{instructions.length}
+          </span>
+
+          <button
+            onClick={handleNextChunk}
+            disabled={currentChunkIndex === instructions.length - 1}
+            className={`px-4 py-2 rounded-md font-semibold text-sm ${
+              currentChunkIndex === instructions.length - 1
+                ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </div>
 
-      {/* Navigation & Page Info */}
-      <div className="flex items-center justify-between w-full max-w-md">
-        <button
-          onClick={handlePreviousChunk}
-          disabled={currentChunkIndex === 0}
-          className={`px-4 py-2 rounded-md font-semibold text-sm ${
-            currentChunkIndex === 0
-              ? "bg-gray-500 text-gray-300 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700"
-          }`}
-        >
-          Previous
-        </button>
 
-        {/* Page number */}
-        <span className="text-lg font-semibold text-lego-dark-blue">
-          {currentChunkIndex + 1}/{instructions.length}
-        </span>
-
-        <button
-          onClick={handleNextChunk}
-          disabled={currentChunkIndex === instructions.length - 1}
-          className={`px-4 py-2 rounded-md font-semibold text-sm ${
-            currentChunkIndex === instructions.length - 1
-              ? "bg-gray-500 text-gray-300 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700"
-          }`}
-        >
-          Next
-        </button>
+      {/* Legend Section */}
+      <div className="legend bg-slate-800 p-4 rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-lego-blue mb-4">Colour Legend</h3>
+        <div className="grid gap-2">
+          {Array.from(colourMap.entries()).map(([colour, number]) => (
+            <div
+              key={colour.hexColour.toString()}
+              className="flex items-center space-x-4 p-2 rounded-md shadow-md"
+              style={{
+                backgroundColor: colour.hexColour,
+              }}
+            >
+              <div
+                className="w-8 h-8 rounded-md shadow-md"
+                style={{
+                  backgroundColor: colour.hexColour,
+                }}
+              ></div>
+              <span
+                style={{ color: getContrastingTextColor(colour.hexColour) }}
+                className="text-sm font-bold"
+              >
+                {colour.name}: {number}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
+      
     </div>
+    </>
   );
 };
 
